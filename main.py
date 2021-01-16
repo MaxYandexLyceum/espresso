@@ -20,10 +20,12 @@ class MyWidget(QMainWindow):
         self.con = sqlite3.connect("coffee.db")
         cur = self.con.cursor()
         result = cur.execute("SELECT * FROM coffee").fetchall()
-        print(result)
+        self.tableWidget.setRowCount(len(result))
+        self.tableWidget.setColumnCount(len(result[0]))
+        self.titles = [description[0] for description in cur.description]
+        self.tableWidget.setHorizontalHeaderLabels(self.titles)
         for i, elem in enumerate(result):
             for j, val in enumerate(elem):
-                print(i, j, val)
                 self.tableWidget.setItem(i, j, QTableWidgetItem(str(val)))
 
 
